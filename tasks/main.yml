@@ -1,0 +1,37 @@
+---
+- name: Install dependencies
+  package:
+    name: unzip
+    state: present
+
+- name: Download terraform release archive
+  get_url:
+    url: "{{ terraform_download_url }}"
+    dest: /tmp/terraform_linux_amd64.zip
+
+- name: Extract terraform binary from archive
+  unarchive:
+    src: /tmp/terraform_linux_amd64.zip
+    dest: "{{ terraform_install_location }}"
+    remote_src: yes
+
+- name: Update terraform binary permissions
+  file:
+    path: "{{ terraform_install_location }}/terraform"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Remove terraform release archive
+  file:
+    path: /tmp/terraform_linux_amd64.zip
+    state: absent
+
+- name: Uninstall terraform
+  file:
+    path: "{{ terraform_install_location }}/terraform"
+    state: absent
+  tags:
+    - never
+    - remove
+

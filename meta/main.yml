@@ -1,0 +1,7 @@
+galaxy_info:
+  author: Catalin Manolescu
+  description: Install terraform on linux hosts
+  company: Tin Slice
+  license: MIT
+
+dependencies: []
